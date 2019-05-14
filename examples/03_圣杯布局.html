@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圣杯布局</title>
+    <!--
+    要求：
+        三列布局
+        两边固定，中间自适应;
+        中间列要完整显示;
+        中间 middle 先加载，再加载两边;
+
+    1. 定义好所有布局的div标签,其中middle在left和right的前面
+    2. content内部div三者都 float： left，定义统一的高度 height: 100px, 此时中间部分的容器 content 会高度塌陷，content内部div挤在一行
+    3. 使用 clearFix 解决 content 高度塌陷问题
+    4. 由于两边固定，中间部分自适应，定义 middle 的 width： 100%，将left和right的宽度分别定义为
+        200px 和 220px,此时 middle 独占一行，将left和right挤到下一行
+    5. 调整 left 的 margin-left: -100%, left 会提到 middle 的同一行并与middle的最左边重叠,
+       调整 right 的 margin-left: -220px, right会提到 middle 的同一行并与middle的最右边重叠
+    6. 设置 content 的内边距，压缩 content的内容区
+    7. 调整 left 和 right的相对位置。设置他们的 position: relative,left 的left: -200px; right 的 left: 220px
+       这一步解决 middle 的中间内容正常显示
+
+
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-width: 700px;
+        }
+
+        .footer, .header {
+            height: 50px;
+            background-color: darkgrey;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        .content {
+            padding: 0 220px 0 200px;
+        }
+
+        .content > div {
+            height: 100px;
+            float: left;
+            /*position: relative;*/
+        }
+
+        .left {
+            position: relative;
+            width: 200px;
+            left: -200px;
+            margin-left: -100%;
+            background-color: pink;
+        }
+
+        .middle {
+            width: 100%;
+            background-color: deeppink;
+        }
+
+        .right {
+            position: relative;
+            margin-left: -220px;
+            width: 220px;
+            left: 220px;
+            background-color: yellowgreen;
+        }
+
+        .clearFix {
+            zoom: 1;
+        }
+
+        .clearFix::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<div class="header">header</div>
+<div class="content clearFix">
+    <div class="middle">middle</div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+</div>
+<div class="footer">footer</div>
+</body>
+</html>
